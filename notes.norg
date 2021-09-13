@@ -1,0 +1,49 @@
+@document.meta
+	title: notes
+	description: Notes on software design from problem 2, computing the mandelbrot set.
+	author: granthec
+	categories: 
+	created: 2021-09-13
+	version: 0.1
+@end
+
+* Definition of the Mandelbrot Set:
+ ** The set of values of c in the complex plain for which the orbit~
+    of 0 under iteration of the complex plane for which the orbit of~
+    0 under iteration of the complex quadratic polynomial~
+    z_n+1 = z_n^2 + c remains bounded
+
+* Problem requirements:
+ ** Must be able to determine which points on a grid are bounded~
+    ||z|| <= 2 to estimate the area of the Mandelbrot set
+ ** Grid partitioned to span with real numbers x in [-2, 2]
+ ** "                           " imaginary numbers y in [-i, i]
+ ** Points should be checked by itterating up to 1,000 or 10,000 times to check for divergence
+ ** z_0 starts at zero
+
+* Problem analysis:
+ ** Problem inputs:
+  *** Grid resolution - number of points in real and imag. axes and/or~
+      spacing between grid points
+  *** Number of iterations - nmber of iterations to check for divergence
+
+ ** Problem outputs:
+  *** Text data file - information for plotting Mandelbrot set
+   **** c       - Real and imaginary componants
+   **** flag    - Boolean flag to indicate point is in the set
+   **** iters   - Number of iterations to diverge
+   **** Format: real(c) imag(c) flag iters
+  *** Estimate of Mandelbrot set area
+
+* Algorithm design:
+ ** Programming in C++ and will use OO approach
+ ** Classes:
+  *** GridPoint
+   **** Location on grid, c
+   **** Flag indicating in set
+   **** Number of iterations to diverge 
+  *** Grid
+   **** Contains std::vector<vector<<GridPoint>>
+   **** Grid size info
+
+
