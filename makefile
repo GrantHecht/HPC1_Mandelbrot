@@ -1,10 +1,13 @@
 
 # Link command
-main: main.o GridPoint.o
+all: main.o GridPoint.o
 	g++ main.o GridPoint.o -o main
 
 main.o: main.cpp GridPoint.hpp
-	g++ -c main.cpp
+	g++ -I. -c main.cpp
 
 GridPoint.o: GridPoint.cpp 
-	g++ -c GridPoint.cpp
+	g++ -I. -c GridPoint.cpp
+
+clean:
+	rm -rf *.o
