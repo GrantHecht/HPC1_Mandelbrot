@@ -102,6 +102,9 @@ void Grid::PrintResults(std::string fileName)
     outFile.open(fileName);
     outFile << std::setprecision(14);
 
+    // Print column lables
+    outFile << "Real Imag InSet Iters\n";
+
     // Loop through GridPoint(s)
     for (int ii = 0; ii < numRows; ii++) {
         for (int jj = 0; jj < numCols; jj++) {

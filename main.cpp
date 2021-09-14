@@ -10,10 +10,10 @@ int main()
 
     for (int ii = 1; ii <= 4; ii++)
     {
-        // Instantiate grid
+        // Allocate new Grid object
         Grid* gridPtr = new Grid(rows*ii, cols*ii);
 
-        // Compute if all points are in set
+        // Compute which points are in set
         gridPtr->ComputeSet();
 
         // Print area
@@ -22,7 +22,7 @@ int main()
         // Write results to file 
         std::string  fName = "cols_" + std::to_string(cols*ii) + "_rows_" + 
             std::to_string(rows*ii) + ".txt";
-        gridPtr->PrintResults(fName);
+        gridPtr->PrintResults("Plotting/" + fName);
 
         // Deallocate pointer
         delete gridPtr;
