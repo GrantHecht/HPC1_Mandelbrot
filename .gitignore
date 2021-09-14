@@ -1,0 +1,6 @@
+
+# Ignore main executable
+main
+
+# Ignore .txt files
+*.txt
