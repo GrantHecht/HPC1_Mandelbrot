@@ -12,14 +12,14 @@ GridPoint::GridPoint(double real, double imag)
     iters = -1;
 }
 
-void GridPoint::Iterate(int numIters, int maxIters)
+void GridPoint::Iterate(int numIters)
 {
     // Initialize iteration counter and z
     int ii = 0;
     std::complex<double> z(0.0, 0.0);
 
     // Begin iterating
-    for (int iter = 1; iter <= maxIters; iter++)
+    for (int iter = 1; iter <= numIters; iter++)
     {
         // Update z
         z = z*z + c;
@@ -32,4 +32,24 @@ void GridPoint::Iterate(int numIters, int maxIters)
             break;
         }
     }
+}
+
+double GridPoint::GetReal()
+{
+    return std::real(c);
+}
+
+double GridPoint::GetImag()
+{
+    return std::imag(c);
+}
+
+bool GridPoint::IsInSet()
+{
+    return flag;
+}
+
+int GridPoint::GetItersToDiverge()
+{
+    return iters;
 }

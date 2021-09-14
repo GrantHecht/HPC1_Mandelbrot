@@ -9,7 +9,19 @@ class GridPoint {
         GridPoint(double real, double imag); 
 
         // Iterate
-        void Iterate(int numIters, int maxIters);
+        void Iterate(int numIters);
+        
+        // Get grid point real componant
+        double GetReal();
+        
+        // Get grid point imag. componant
+        double GetImag();
+
+        // Get flag 
+        bool IsInSet();
+
+        // Get number of iters
+        int GetItersToDiverge();
 
     private:
         // Location in grid
