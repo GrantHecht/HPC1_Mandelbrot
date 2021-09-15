@@ -3,6 +3,7 @@
 main
 
 # File extentions to ignore
+*.o
 *.txt
 *.svg
 *.pdf
