@@ -2,5 +2,7 @@
 # Ignore main executable
 main
 
-# Ignore .txt files
+# File extentions to ignore
 *.txt
+*.svg
+*.pdf
