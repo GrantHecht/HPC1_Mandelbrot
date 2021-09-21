@@ -2,41 +2,36 @@
 #include "Grid.hpp"
 #include <fstream>
 #include <iomanip>
-
 #include <iostream>
 
-Grid::Grid(int numRowsIn, int numColsIn, int numItersIn)
+Grid::Grid(int numRowsIn, int numColsIn, int numItersIn) :
+    numRows(numRowsIn), numCols(numColsIn), numIters(numItersIn)
 {
-    // Set upper and lower bounds
+    // Set feilds
     realMin  = -2.0;
     realMax  =  2.0;
     imagMin  = -1.0;
     imagMax  =  1.0; 
 
+    // Size vector of *GridPoint(s)
+    int numPoints = numRowsIn*numColsIn;
+    grid.resize(numPoints);
+
     // Instantiate GridPoint objects
     double imagStep = (imagMax - imagMin) / (numRowsIn - 1);
     double realStep = (realMax - realMin) / (numColsIn - 1);
     double currentImag;
-    for (int ii = 0; ii < numRowsIn; ii++)
+    for (int ii = 0; ii < numRows; ii++)
     {
         // Compute current imaginary value
         currentImag = imagMax - ii*imagStep;
-
-        // Instantiate and fill vector of GridPoint pointers
-        std::vector<GridPoint*> rowVec;
-        for (int jj = 0; jj < numColsIn; jj ++) {
-            GridPoint* gpPtr = new GridPoint(realMin + jj*realStep, currentImag);
-            rowVec.push_back(gpPtr);
+        for (int jj = 0; jj < numCols; jj ++) {
+            // Add pointer to grid
+            grid[GetGridVecIdx(ii,jj)] = new GridPoint(realMin + jj*realStep, currentImag);
         }
-
-        // Push row vector to grid
-        grid.push_back(rowVec);
     }
 
     // Set remaining class variables
-    numRows = numRowsIn;
-    numCols = numColsIn;
-    numIters = numItersIn;
     area = 0.0;
     setComputed = false;
     areaComputed = false;
@@ -46,7 +41,7 @@ Grid::~Grid()
 {
     for (int ii = 0; ii < numRows; ii++)
         for (int jj = 0; jj < numCols; jj++)
-            delete grid[ii][jj];
+            delete grid[GetGridVecIdx(ii,jj)];
     grid.clear();
 }
 
@@ -55,7 +50,10 @@ void Grid::ComputeSet()
     // Iterate for all GridPoint(s)
     for (int ii = 0; ii < numRows; ii++)
         for (int jj = 0; jj < numCols; jj++)
-            grid[ii][jj]->Iterate(numIters);
+        {
+            grid[GetGridVecIdx(ii,jj)]->Iterate(numIters);
+        }
+    std::cout << "Finished computing set." << std::endl;
 
     // Set flag
     setComputed = true;
@@ -73,7 +71,7 @@ void Grid::ComputeSetArea()
     double quarterArea  = imagHalfStep*realHalfStep;
     for (int ii = 0; ii < numRows; ii++) {
         for (int jj = 0; jj < numCols; jj++) {
-            if (grid[ii][jj]->IsInSet())
+            if (grid[GetGridVecIdx(ii,jj)]->IsInSet())
             {
                 if (ii == 0 || ii == numRows - 1) {
                     if (jj == 0 || jj == numCols - 1)
@@ -109,8 +107,8 @@ void Grid::PrintResults(std::string fileName)
     for (int ii = 0; ii < numRows; ii++) {
         for (int jj = 0; jj < numCols; jj++) {
             // Write line to file
-            outFile << grid[ii][jj]->GetReal() << " " << grid[ii][jj]->GetImag() << " " 
-                << grid[ii][jj]->IsInSet() << " " << grid[ii][jj]->GetItersToDiverge() << "\n";
+            outFile << grid[GetGridVecIdx(ii,jj)]->GetReal() << " " << grid[GetGridVecIdx(ii,jj)]->GetImag() << " " 
+                << grid[GetGridVecIdx(ii,jj)]->IsInSet() << " " << grid[GetGridVecIdx(ii,jj)]->GetItersToDiverge() << "\n";
         }
     }
 
@@ -128,4 +126,7 @@ double Grid::GetAreaOfSet()
     return area;
 }
 
-
+int Grid::GetGridVecIdx(int row, int col)
+{
+    return (row*numCols + col);
+}

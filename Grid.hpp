@@ -28,8 +28,12 @@ class Grid
         double GetAreaOfSet();
 
     private:
+
+        // Get grid vector index 
+        int GetGridVecIdx(int row, int col);
+
         // Vector of vectors containing pointers to GridPoint(s)
-        std::vector<std::vector<GridPoint*>> grid; 
+        std::vector<GridPoint*> grid; 
 
         // Number of rows 
         int numRows;

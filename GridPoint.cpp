@@ -1,5 +1,6 @@
 
 #include "GridPoint.hpp"
+#include <iostream>
 
 GridPoint::GridPoint(double real, double imag)
 {
