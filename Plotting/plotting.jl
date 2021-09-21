@@ -4,7 +4,8 @@ quickactivate(@__DIR__, "Plotting")
 
 using CSV
 using DataFrames
-using Gadfly
+using Plots
+pgfplotsx()
 
 function main()
     # Read file
@@ -14,8 +15,14 @@ function main()
     filter!(row -> row.InSet == 1, df)
 
     # Plot 
-    p = plot(df, x=:Real, y=:Imag)
-    draw(SVG("test.svg", 6inch, 4inch), p)
+    fig = scatter(df.Real, df.Imag; 
+                  markersize=0.1, 
+                  label="Points in Mandelbrot Set",
+                  legend=:none)
+
+    xlabel!("Real")
+    ylabel!("Imaginary")
+    savefig(fig, "test.pdf")
 end
 
 main()
