@@ -1,5 +1,12 @@
 
 #include "GridPoint.hpp"
+#include <iostream>
+
+GridPoint::GridPoint() : flag(true), iters(-1)
+{
+    c.real(0.0);
+    c.imag(0.0);
+}
 
 GridPoint::GridPoint(double real, double imag)
 {
@@ -42,6 +49,16 @@ double GridPoint::GetReal()
 double GridPoint::GetImag()
 {
     return std::imag(c);
+}
+
+void GridPoint::SetReal(double real)
+{
+    c.real(real);
+}
+
+void GridPoint::SetImag(double imag)
+{
+    c.imag(imag);
 }
 
 bool GridPoint::IsInSet()
