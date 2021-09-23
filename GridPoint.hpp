@@ -5,7 +5,8 @@
 
 class GridPoint {
     public:
-        // Constructor
+        // Constructors
+        GridPoint();
         GridPoint(double real, double imag); 
 
         // Iterate
@@ -16,6 +17,12 @@ class GridPoint {
         
         // Get grid point imag. componant
         double GetImag();
+
+        // Set grid point real componant
+        void SetReal(double real);
+
+        // Set grid point imag componant
+        void SetImag(double imag);
 
         // Get flag 
         bool IsInSet();

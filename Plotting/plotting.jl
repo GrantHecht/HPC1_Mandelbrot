@@ -23,6 +23,7 @@ function main()
     xlabel!("Real")
     ylabel!("Imaginary")
     savefig(fig, "test.pdf")
+    return nothing
 end
 
 main()
