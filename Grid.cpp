@@ -27,7 +27,8 @@ Grid::Grid(int numRowsIn, int numColsIn, int numItersIn) :
         currentImag = imagMax - ii*imagStep;
         for (int jj = 0; jj < numCols; jj ++) {
             // Add pointer to grid
-            grid[GetGridVecIdx(ii,jj)] = new GridPoint(realMin + jj*realStep, currentImag);
+            grid[GetGridVecIdx(ii,jj)].SetReal(realMin + jj*realStep);
+            grid[GetGridVecIdx(ii,jj)].SetImag(currentImag);
         }
     }
 
@@ -39,10 +40,6 @@ Grid::Grid(int numRowsIn, int numColsIn, int numItersIn) :
 
 Grid::~Grid()
 {
-    for (int ii = 0; ii < numRows; ii++)
-        for (int jj = 0; jj < numCols; jj++)
-            delete grid[GetGridVecIdx(ii,jj)];
-    grid.clear();
 }
 
 void Grid::ComputeSet()
@@ -51,7 +48,7 @@ void Grid::ComputeSet()
     for (int ii = 0; ii < numRows; ii++)
         for (int jj = 0; jj < numCols; jj++)
         {
-            grid[GetGridVecIdx(ii,jj)]->Iterate(numIters);
+            grid[GetGridVecIdx(ii,jj)].Iterate(numIters);
         }
     std::cout << "Finished computing set." << std::endl;
 
@@ -71,7 +68,7 @@ void Grid::ComputeSetArea()
     double quarterArea  = imagHalfStep*realHalfStep;
     for (int ii = 0; ii < numRows; ii++) {
         for (int jj = 0; jj < numCols; jj++) {
-            if (grid[GetGridVecIdx(ii,jj)]->IsInSet())
+            if (grid[GetGridVecIdx(ii,jj)].IsInSet())
             {
                 if (ii == 0 || ii == numRows - 1) {
                     if (jj == 0 || jj == numCols - 1)
@@ -107,8 +104,8 @@ void Grid::PrintResults(std::string fileName)
     for (int ii = 0; ii < numRows; ii++) {
         for (int jj = 0; jj < numCols; jj++) {
             // Write line to file
-            outFile << grid[GetGridVecIdx(ii,jj)]->GetReal() << " " << grid[GetGridVecIdx(ii,jj)]->GetImag() << " " 
-                << grid[GetGridVecIdx(ii,jj)]->IsInSet() << " " << grid[GetGridVecIdx(ii,jj)]->GetItersToDiverge() << "\n";
+            outFile << grid[GetGridVecIdx(ii,jj)].GetReal() << " " << grid[GetGridVecIdx(ii,jj)].GetImag() << " " 
+                << grid[GetGridVecIdx(ii,jj)].IsInSet() << " " << grid[GetGridVecIdx(ii,jj)].GetItersToDiverge() << "\n";
         }
     }
 

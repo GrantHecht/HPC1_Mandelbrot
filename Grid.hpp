@@ -9,7 +9,7 @@
 class Grid
 {
     public:
-        // Constructor 
+        // Constructors
         Grid(int numRowsIn, int numColsIn, int numItersIn = 1000);
 
         // Destructor
@@ -33,7 +33,7 @@ class Grid
         int GetGridVecIdx(int row, int col);
 
         // Vector of vectors containing pointers to GridPoint(s)
-        std::vector<GridPoint*> grid; 
+        std::vector<GridPoint> grid; 
 
         // Number of rows 
         int numRows;
