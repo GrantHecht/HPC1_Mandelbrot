@@ -47,10 +47,7 @@ void Grid::ComputeSet()
     // Iterate for all GridPoint(s)
     for (int ii = 0; ii < numRows; ii++)
         for (int jj = 0; jj < numCols; jj++)
-        {
             grid[GetGridVecIdx(ii,jj)].Iterate(numIters);
-        }
-    std::cout << "Finished computing set." << std::endl;
 
     // Set flag
     setComputed = true;
@@ -62,29 +59,11 @@ void Grid::ComputeSetArea()
     if (setComputed == false)
         ComputeSet();
 
-    // Compute area
-    double imagHalfStep = (imagMax - imagMin) / (2.0*(numRows - 1));
-    double realHalfStep = (realMax - realMin) / (2.0*(numCols - 1));
-    double quarterArea  = imagHalfStep*realHalfStep;
-    for (int ii = 0; ii < numRows; ii++) {
-        for (int jj = 0; jj < numCols; jj++) {
+    double gridPointArea = ((imagMax - imagMin) / (numRows - 1))*((realMax - realMin) / (numCols - 1));
+    for (int ii = 0; ii < numRows; ii++) 
+        for (int jj = 0; jj < numCols; jj++)
             if (grid[GetGridVecIdx(ii,jj)].IsInSet())
-            {
-                if (ii == 0 || ii == numRows - 1) {
-                    if (jj == 0 || jj == numCols - 1)
-                        area += quarterArea;
-                    else 
-                        area += 2.0*quarterArea;
-                }
-                else {
-                    if (jj == 0 || jj == numCols - 1)
-                        area += 2.0*quarterArea;
-                    else
-                        area += 4.0*quarterArea;
-                }
-            }
-        }
-    }
+                area += gridPointArea;
 
     // Set flag
     areaComputed = true;
